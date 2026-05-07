@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>自适应栅格导航 - 神经网络</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u81ea\u9002\u5e94\u6805\u683c\u5bfc\u822a";
+        var mkdocs_page_input_path = "adaptive_grid_navigation\\README.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> 神经网络
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">首页</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">项目汇报</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">自适应栅格导航</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#1">1. 项目背景</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#2">2. 项目目标</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#3">3. 新增模块位置</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#4">4. 核心功能</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#41">4.1 栅格地图建模</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#42">4.2 多算法路径规划</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#43">4.3 动态障碍物与在线重规划</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#5">5. 运行方法</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#6">6. 运行结果</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#61-a">6.1 A* 路径规划结果</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#62">6.2 不同算法对比</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#63-gif">6.3 动态重规划 GIF</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#7">7. 工程量说明</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#8">8. 测试验证</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#9">9. 项目意义</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#10">10. 小结</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="speech/">演讲提纲</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">入门</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../linear_regression/">线性回归</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">神经网络</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">项目汇报</li>
+      <li class="breadcrumb-item active">自适应栅格导航</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/OpenHUTB/nn/edit/master/docs/adaptive_grid_navigation/README.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="_1">自适应栅格导航与动态重规划汇报</h1>
+<h2 id="1">1. 项目背景</h2>
+<p><code>nn</code> 项目中包含大量无人车、无人机和机器人导航相关模块。为了让本次改进更接近真实工程项目，我新增了 <code>adaptive_grid_navigation</code> 模块，用二维栅格地图模拟移动机器人导航任务。</p>
+<p>该模块不依赖 Carla、AirSim、Mujoco 等大型仿真平台，可以直接在普通 Python 环境中运行，适合课堂展示、算法对比和后续迁移到机器人仿真平台。</p>
+<h2 id="2">2. 项目目标</h2>
+<p>本项目的目标是制作一个完整的路径规划演示工程，而不是只写一个单独函数。它包括：</p>
+<ul>
+<li>栅格地图建模。</li>
+<li>多种路径规划算法实现。</li>
+<li>动态障碍物模拟。</li>
+<li>在线重规划机制。</li>
+<li>图片、图表和 GIF 动图输出。</li>
+<li>指标文件和测试文件。</li>
+<li>README 与 MkDocs 汇报文档。</li>
+</ul>
+<h2 id="3">3. 新增模块位置</h2>
+<pre><code class="language-text">src/adaptive_grid_navigation/
+</code></pre>
+<p>模块结构如下：</p>
+<pre><code class="language-text">src/adaptive_grid_navigation/
+├── main.py                  # 命令行入口
+├── grid_map.py              # 栅格地图与地图生成
+├── planners.py              # Dijkstra、A*、贪心搜索规划器
+├── simulator.py             # 动态障碍物和在线重规划仿真
+├── visualization.py         # 图片、图表和 GIF 输出
+├── requirements.txt         # 模块依赖
+├── README.md                # 模块说明
+├── assets/                  # 运行结果图片、动图和指标
+└── tests/test_navigation.py # 基础测试
+</code></pre>
+<h2 id="4">4. 核心功能</h2>
+<h3 id="41">4.1 栅格地图建模</h3>
+<p>模块使用二维数组表示地图：</p>
+<ul>
+<li><code>0</code> 表示可通行区域。</li>
+<li><code>1</code> 表示障碍物。</li>
+<li>使用 <code>(row, col)</code> 表示机器人位置。</li>
+<li>地图包含起点 <code>start</code> 和终点 <code>goal</code>。</li>
+</ul>
+<p><code>grid_map.py</code> 中封装了 <code>GridMap</code> 类，提供边界检查、障碍物检查、邻居节点搜索和演示地图生成。</p>
+<h3 id="42">4.2 多算法路径规划</h3>
+<p><code>planners.py</code> 中实现了三种规划器：</p>
+<ul>
+<li><code>DijkstraPlanner</code>：保证最短路径，但搜索节点较多。</li>
+<li><code>AStarPlanner</code>：加入启发式函数，通常比 Dijkstra 更高效。</li>
+<li><code>GreedyBestFirstPlanner</code>：搜索速度快，但路径不一定最短。</li>
+</ul>
+<p>三种算法使用同一张地图进行比较，便于观察路径长度和扩展节点数量差异。</p>
+<h3 id="43">4.3 动态障碍物与在线重规划</h3>
+<p><code>simulator.py</code> 中实现了动态障碍物。障碍物会沿预设轨迹移动，当障碍物挡住机器人下一步路径时，机器人会从当前位置重新调用 A* 规划路径。</p>
+<p>这个机制模拟了真实导航任务中常见的问题：环境不是完全静态的，机器人需要根据障碍物变化调整路径。</p>
+<h2 id="5">5. 运行方法</h2>
+<p>进入模块目录：</p>
+<pre><code class="language-bash">cd src/adaptive_grid_navigation
+python main.py
+</code></pre>
+<p>运行后会在 <code>assets/</code> 目录生成：</p>
+<pre><code class="language-text">astar_route.png
+planner_comparison.png
+dynamic_replanning.gif
+metrics.json
+planner_metrics.csv
+</code></pre>
+<h2 id="6">6. 运行结果</h2>
+<h3 id="61-a">6.1 A* 路径规划结果</h3>
+<p>下图展示了 A* 在二维栅格地图中的规划路径。深色区域为障碍物，蓝色路径为规划结果，绿色为起点，红色为终点。</p>
+<p><img alt="A* 路径规划结果" src="assets/astar_route.png" /></p>
+<h3 id="62">6.2 不同算法对比</h3>
+<p>下图比较了 Dijkstra、A* 和 Greedy best-first search 的路径长度和扩展节点数量。</p>
+<p><img alt="路径规划算法对比" src="assets/planner_comparison.png" /></p>
+<p>本次运行结果如下：</p>
+<pre><code class="language-text">Dijkstra: path_length=54, expanded_nodes=899
+A*: path_length=54, expanded_nodes=648
+Greedy best-first: path_length=56, expanded_nodes=58
+</code></pre>
+<p>可以看到：</p>
+<ul>
+<li>Dijkstra 与 A* 都找到了长度为 54 的路径。</li>
+<li>A* 在保持最短路径的同时，扩展节点数量少于 Dijkstra。</li>
+<li>贪心搜索扩展节点最少，但路径长度变为 56，不是最优路径。</li>
+</ul>
+<h3 id="63-gif">6.3 动态重规划 GIF</h3>
+<p>下图展示了机器人在动态障碍物环境中的在线重规划过程。紫色块表示动态障碍物，蓝色块表示机器人当前位置，蓝色路径会随着重规划更新。</p>
+<p><img alt="动态重规划演示" src="assets/dynamic_replanning.gif" /></p>
+<p>本次动态仿真结果：</p>
+<pre><code class="language-text">reached_goal=True
+replans=2
+travelled=54
+frames=55
+</code></pre>
+<p>说明机器人成功到达目标点，并在途中进行了 2 次重规划。</p>
+<h2 id="7">7. 工程量说明</h2>
+<p>本模块不是单个脚本，而是一个完整的小型工程，包含：</p>
+<ul>
+<li>5 个 Python 源码文件。</li>
+<li>1 个 README 文档。</li>
+<li>1 个 requirements 依赖文件。</li>
+<li>1 个测试文件。</li>
+<li>3 个可视化成果文件。</li>
+<li>2 个指标输出文件。</li>
+<li>1 个 MkDocs 汇报页面。</li>
+</ul>
+<p>相比只改一两行代码，这个模块更接近 <code>src</code> 中其他同学提交的独立项目形式。</p>
+<h2 id="8">8. 测试验证</h2>
+<p>已完成 Python 语法检查：</p>
+<pre><code class="language-bash">python -m py_compile main.py grid_map.py planners.py simulator.py visualization.py tests/test_navigation.py
+</code></pre>
+<p>模块运行命令：</p>
+<pre><code class="language-bash">python main.py --output assets --max-steps 120
+</code></pre>
+<p>运行结果：</p>
+<pre><code class="language-text">Adaptive grid navigation demo finished
+Map: demo  Start: (25, 2)  Goal: (2, 33)
+Dijkstra: success=True path_length=54 expanded_nodes=899
+A*: success=True path_length=54 expanded_nodes=648
+Greedy best-first: success=True path_length=56 expanded_nodes=58
+Dynamic replanning: reached_goal=True replans=2 travelled=54 frames=55
+</code></pre>
+<h2 id="9">9. 项目意义</h2>
+<p>该模块可以作为后续机器人导航项目的基础：</p>
+<ul>
+<li>可以把栅格地图替换成真实仿真地图。</li>
+<li>可以把 A* 规划结果发送给 ROS、Gazebo 或 Webots 机器人。</li>
+<li>可以继续加入路径平滑、速度规划和动态窗口法。</li>
+<li>可以把动态障碍物替换成仿真环境中的行人或车辆。</li>
+</ul>
+<h2 id="10">10. 小结</h2>
+<p>本次新增的 <code>adaptive_grid_navigation</code> 模块完成了从地图建模、路径规划、动态避障、重规划、结果可视化到测试验证的完整流程。</p>
+<p>它既有算法实现，也有工程组织和可视化成果，适合作为课程汇报项目展示。</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="首页"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="speech/" class="btn btn-neutral float-right" title="演讲提纲">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>OpenHUTB 版权所有 &copy; 2026</p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/OpenHUTB/nn" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="speech/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../extra.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
