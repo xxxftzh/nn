@@ -66,23 +66,41 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#5">5. 运行方法</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#6">6. 运行结果</a>
+    <li class="toctree-l2"><a class="reference internal" href="#6">6. 静态路径规划结果</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#61-a">6.1 A* 路径规划结果</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#62">6.2 不同算法对比</a>
+    <li class="toctree-l3"><a class="reference internal" href="#62">6.2 三种算法路径叠加图</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#63-gif">6.3 动态重规划 GIF</a>
+    <li class="toctree-l3"><a class="reference internal" href="#63">6.3 不同算法指标对比</a>
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#7">7. 工程量说明</a>
+    <li class="toctree-l2"><a class="reference internal" href="#7">7. 搜索过程可视化</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#71-a">7.1 A* 搜索扩展热力图</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#8">8. 测试验证</a>
+        </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#9">9. 项目意义</a>
+    <li class="toctree-l2"><a class="reference internal" href="#8">8. 动态重规划结果</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#81-gif">8.1 动态重规划 GIF</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#10">10. 小结</a>
+    <li class="toctree-l3"><a class="reference internal" href="#82">8.2 实际执行轨迹图</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#83">8.3 重规划时间线</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#9">9. 工程量说明</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#10">10. 测试验证</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#11">11. 汇报时可以重点讲的内容</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#12">12. 项目意义</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#13">13. 小结</a>
     </li>
     </ul>
                   </li>
@@ -178,15 +196,29 @@ python main.py
 <p>运行后会在 <code>assets/</code> 目录生成：</p>
 <pre><code class="language-text">astar_route.png
 planner_comparison.png
+planner_route_overlay.png
+astar_expansion_heatmap.png
+robot_trace.png
+replanning_timeline.png
 dynamic_replanning.gif
 metrics.json
 planner_metrics.csv
 </code></pre>
-<h2 id="6">6. 运行结果</h2>
+<h2 id="6">6. 静态路径规划结果</h2>
 <h3 id="61-a">6.1 A* 路径规划结果</h3>
 <p>下图展示了 A* 在二维栅格地图中的规划路径。深色区域为障碍物，蓝色路径为规划结果，绿色为起点，红色为终点。</p>
 <p><img alt="A* 路径规划结果" src="assets/astar_route.png" /></p>
-<h3 id="62">6.2 不同算法对比</h3>
+<p>这张图可以说明：A* 不是简单直线前进，而是根据障碍物分布选择可通行通道，并最终到达目标点。</p>
+<h3 id="62">6.2 三种算法路径叠加图</h3>
+<p>下图把 Dijkstra、A* 和 Greedy best-first search 的路径画在同一张地图上。</p>
+<p><img alt="三种算法路径叠加图" src="assets/planner_route_overlay.png" /></p>
+<p>这张图适合汇报时重点讲：</p>
+<ul>
+<li>Dijkstra 与 A* 都找到长度为 54 的最短路径。</li>
+<li>A* 使用启发式函数减少搜索量，但仍保持最短路径。</li>
+<li>Greedy best-first search 更激进，路径长度变为 56，说明它更快但不一定最优。</li>
+</ul>
+<h3 id="63">6.3 不同算法指标对比</h3>
 <p>下图比较了 Dijkstra、A* 和 Greedy best-first search 的路径长度和扩展节点数量。</p>
 <p><img alt="路径规划算法对比" src="assets/planner_comparison.png" /></p>
 <p>本次运行结果如下：</p>
@@ -197,10 +229,17 @@ Greedy best-first: path_length=56, expanded_nodes=58
 <p>可以看到：</p>
 <ul>
 <li>Dijkstra 与 A* 都找到了长度为 54 的路径。</li>
-<li>A* 在保持最短路径的同时，扩展节点数量少于 Dijkstra。</li>
+<li>A* 在保持最短路径的同时，扩展节点数量比 Dijkstra 少 251 个。</li>
 <li>贪心搜索扩展节点最少，但路径长度变为 56，不是最优路径。</li>
 </ul>
-<h3 id="63-gif">6.3 动态重规划 GIF</h3>
+<h2 id="7">7. 搜索过程可视化</h2>
+<h3 id="71-a">7.1 A* 搜索扩展热力图</h3>
+<p>下图展示 A* 在搜索过程中扩展节点的顺序。颜色越深，表示越晚被扩展；浅色区域表示较早被搜索到。</p>
+<p><img alt="A* 搜索扩展热力图" src="assets/astar_expansion_heatmap.png" /></p>
+<p>这张图可以说明 A* 的搜索不是盲目铺满全图，而是受到目标方向启发，会优先向更可能到达终点的区域扩展。</p>
+<p>从汇报角度看，这张图可以讲清楚“为什么 A* 比 Dijkstra 更高效”：它仍然保证最短路径，但搜索范围更集中。</p>
+<h2 id="8">8. 动态重规划结果</h2>
+<h3 id="81-gif">8.1 动态重规划 GIF</h3>
 <p>下图展示了机器人在动态障碍物环境中的在线重规划过程。紫色块表示动态障碍物，蓝色块表示机器人当前位置，蓝色路径会随着重规划更新。</p>
 <p><img alt="动态重规划演示" src="assets/dynamic_replanning.gif" /></p>
 <p>本次动态仿真结果：</p>
@@ -210,19 +249,27 @@ travelled=54
 frames=55
 </code></pre>
 <p>说明机器人成功到达目标点，并在途中进行了 2 次重规划。</p>
-<h2 id="7">7. 工程量说明</h2>
+<h3 id="82">8.2 实际执行轨迹图</h3>
+<p>下图展示机器人最终实际走过的轨迹。菱形标记表示发生重规划的位置。</p>
+<p><img alt="机器人实际执行轨迹" src="assets/robot_trace.png" /></p>
+<p>这张图可以补充说明：规划路径和实际执行路径不是完全一样的。由于动态障碍物在移动，机器人需要在执行过程中根据环境变化重新规划。</p>
+<h3 id="83">8.3 重规划时间线</h3>
+<p>下图展示仿真过程中机器人到目标点的曼哈顿距离变化，以及触发重规划的时刻。</p>
+<p><img alt="动态重规划时间线" src="assets/replanning_timeline.png" /></p>
+<p>这张图适合用来讲“动态规划过程是否稳定”：整体趋势是距离目标越来越近，中间出现重规划时，机器人没有陷入死路，而是继续向目标前进。</p>
+<h2 id="9">9. 工程量说明</h2>
 <p>本模块不是单个脚本，而是一个完整的小型工程，包含：</p>
 <ul>
 <li>5 个 Python 源码文件。</li>
 <li>1 个 README 文档。</li>
 <li>1 个 requirements 依赖文件。</li>
 <li>1 个测试文件。</li>
-<li>3 个可视化成果文件。</li>
+<li>7 个可视化成果文件，包括 6 张 PNG 和 1 个 GIF。</li>
 <li>2 个指标输出文件。</li>
-<li>1 个 MkDocs 汇报页面。</li>
+<li>2 个 MkDocs 页面，包括项目汇报和演讲提纲。</li>
 </ul>
 <p>相比只改一两行代码，这个模块更接近 <code>src</code> 中其他同学提交的独立项目形式。</p>
-<h2 id="8">8. 测试验证</h2>
+<h2 id="10">10. 测试验证</h2>
 <p>已完成 Python 语法检查：</p>
 <pre><code class="language-bash">python -m py_compile main.py grid_map.py planners.py simulator.py visualization.py tests/test_navigation.py
 </code></pre>
@@ -237,7 +284,29 @@ A*: success=True path_length=54 expanded_nodes=648
 Greedy best-first: success=True path_length=56 expanded_nodes=58
 Dynamic replanning: reached_goal=True replans=2 travelled=54 frames=55
 </code></pre>
-<h2 id="9">9. 项目意义</h2>
+<p>同时运行了模块测试，测试内容包括：</p>
+<ul>
+<li>演示地图合法性。</li>
+<li>A* 是否能找到路径。</li>
+<li>A* 与 Dijkstra 的路径长度是否一致。</li>
+<li>A* 的扩展节点数是否少于 Dijkstra。</li>
+<li>贪心搜索是否能返回有效路径。</li>
+<li>动态重规划是否能生成仿真帧。</li>
+<li>起点落在障碍物上时是否会被拒绝。</li>
+</ul>
+<h2 id="11">11. 汇报时可以重点讲的内容</h2>
+<p>上台时可以按下面顺序讲：</p>
+<ol>
+<li>先说明这是一个完整的 <code>src/adaptive_grid_navigation</code> 工程模块。</li>
+<li>展示 A* 路径图，说明基本路径规划成功。</li>
+<li>展示三算法路径叠加图，说明算法差异。</li>
+<li>展示指标对比图，说明 A* 的效率提升。</li>
+<li>展示搜索热力图，说明 A* 为什么搜索更集中。</li>
+<li>展示 GIF，说明动态障碍物下可以在线重规划。</li>
+<li>展示轨迹图和时间线图，说明机器人最终稳定到达目标。</li>
+</ol>
+<p>这样汇报时就不只是“我写了代码”，而是可以围绕算法、工程结构、可视化结果和测试验证完整展开。</p>
+<h2 id="12">12. 项目意义</h2>
 <p>该模块可以作为后续机器人导航项目的基础：</p>
 <ul>
 <li>可以把栅格地图替换成真实仿真地图。</li>
@@ -245,7 +314,7 @@ Dynamic replanning: reached_goal=True replans=2 travelled=54 frames=55
 <li>可以继续加入路径平滑、速度规划和动态窗口法。</li>
 <li>可以把动态障碍物替换成仿真环境中的行人或车辆。</li>
 </ul>
-<h2 id="10">10. 小结</h2>
+<h2 id="13">13. 小结</h2>
 <p>本次新增的 <code>adaptive_grid_navigation</code> 模块完成了从地图建模、路径规划、动态避障、重规划、结果可视化到测试验证的完整流程。</p>
 <p>它既有算法实现，也有工程组织和可视化成果，适合作为课程汇报项目展示。</p>
               
