@@ -1,4 +1,4 @@
-title: 主页
+﻿title: 主页
 
 # [神经网络](https://github.com/OpenHUTB/nn)
 
@@ -45,6 +45,8 @@ title: 主页
 ## 规划 <span id="planning"></span>
 
 [__导航__](#navigation)
+
+[__仓储多机器人协同__](./warehouse_robot_coordination/README.md) - 多机器人任务分配、A* 路径规划与时空避碰调度演示
 
 ## 控制  <span id="control"></span>
 
