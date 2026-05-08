@@ -14,7 +14,7 @@
       <script>
         // Current page data
         var mkdocs_page_name = "\u6f14\u8bb2\u63d0\u7eb2";
-        var mkdocs_page_input_path = "adaptive_grid_navigation\\speech.md";
+        var mkdocs_page_input_path = "warehouse_robot_coordination\\speech.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -46,7 +46,7 @@
               </ul>
               <p class="caption"><span class="caption-text">项目汇报</span></p>
               <ul class="current">
-                  <li class="toctree-l1"><a class="reference internal" href="../">自适应栅格导航</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../">仓储多机器人协同</a>
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">演讲提纲</a>
     <ul class="current">
@@ -54,9 +54,9 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#_3">为什么做这个项目</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#_4">项目主要内容</a>
+    <li class="toctree-l2"><a class="reference internal" href="#_4">项目结构</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#_5">代码结构</a>
+    <li class="toctree-l2"><a class="reference internal" href="#_5">核心流程</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#_6">展示顺序</a>
     </li>
@@ -69,11 +69,6 @@
     <li class="toctree-l2"><a class="reference internal" href="#_10">结尾</a>
     </li>
     </ul>
-                  </li>
-              </ul>
-              <p class="caption"><span class="caption-text">入门</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../linear_regression/">线性回归</a>
                   </li>
               </ul>
       </div>
@@ -93,7 +88,7 @@
           <li class="breadcrumb-item">项目汇报</li>
       <li class="breadcrumb-item active">演讲提纲</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/OpenHUTB/nn/edit/master/docs/adaptive_grid_navigation/speech.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/OpenHUTB/nn/edit/master/docs/warehouse_robot_coordination/speech.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -101,78 +96,79 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="_1">演讲提纲：自适应栅格导航项目</h1>
+                <h1 id="_1">演讲提纲：多机器人仓储协同调度与避碰</h1>
 <h2 id="_2">开场</h2>
-<p>老师好，我这次汇报的是我在 <code>nn</code> 项目中新增加的 <code>adaptive_grid_navigation</code> 模块。这个模块模拟二维栅格环境中的机器人路径规划，并加入动态障碍物和在线重规划功能。</p>
+<p>老师好，我这次汇报的是 <code>warehouse_robot_coordination</code> 模块，也就是多机器人仓储协同调度与避碰演示项目。</p>
+<p>这个项目模拟智能仓储环境中多台机器人同时执行取货和投放任务，重点解决任务分配、路径规划、路径冲突和时空避碰问题。</p>
 <h2 id="_3">为什么做这个项目</h2>
-<p><code>nn</code> 仓库中有很多无人车、无人机和机器人导航相关内容。为了让我的修改更像一个完整工程，而不是只改几行代码，我选择做一个可以独立运行、可以生成图片和动图、可以用于课堂演示的导航算法模块。</p>
-<h2 id="_4">项目主要内容</h2>
-<p>本项目包括七个核心部分：</p>
-<ol>
-<li>栅格地图建模。</li>
-<li>Dijkstra、A* 和贪心搜索三种路径规划算法。</li>
-<li>三种算法路径叠加对比。</li>
-<li>A* 搜索扩展热力图。</li>
-<li>动态障碍物模拟。</li>
-<li>机器人在线重规划。</li>
-<li>路线图、算法对比图、轨迹图、时间线图和 GIF 动图输出。</li>
-</ol>
-<h2 id="_5">代码结构</h2>
-<p>项目放在：</p>
-<pre><code class="language-text">src/adaptive_grid_navigation/
+<p>之前单机器人路径规划只需要考虑一台机器人从起点到终点。但在真实仓库中，通常有多台机器人同时工作。如果每台机器人只顾自己的最短路径，就可能在窄通道中发生冲突。</p>
+<p>所以这个项目关注的是多机器人协同，而不是单机器人导航。</p>
+<h2 id="_4">项目结构</h2>
+<p>项目位于：</p>
+<pre><code class="language-text">src/warehouse_robot_coordination/
 </code></pre>
-<p>其中：</p>
+<p>主要文件包括：</p>
 <ul>
-<li><code>grid_map.py</code> 负责地图。</li>
-<li><code>planners.py</code> 负责路径规划算法。</li>
-<li><code>simulator.py</code> 负责动态障碍物和重规划。</li>
-<li><code>visualization.py</code> 负责生成图片和 GIF。</li>
-<li><code>main.py</code> 是运行入口。</li>
-<li><code>tests/test_navigation.py</code> 是测试文件。</li>
+<li><code>warehouse.py</code>：仓库地图、机器人和任务定义。</li>
+<li><code>planner.py</code>：A* 路径规划、任务分配和单机器人基线。</li>
+<li><code>scheduler.py</code>：冲突检测和等待避碰。</li>
+<li><code>visualization.py</code>：生成图片、图表和 GIF。</li>
+<li><code>main.py</code>：项目运行入口。</li>
+<li><code>tests/test_coordination.py</code>：测试文件。</li>
 </ul>
-<h2 id="_6">展示顺序</h2>
-<p>上台展示时建议按这个顺序讲：</p>
+<h2 id="_5">核心流程</h2>
+<p>项目运行流程是：</p>
 <ol>
-<li>先打开项目汇报页，说明项目背景和文件结构。</li>
-<li>展示 A* 路线图，说明基本路径规划成功。</li>
-<li>展示三种算法路径叠加图，说明路径差异。</li>
-<li>展示算法指标对比图，说明 A* 比 Dijkstra 搜索更少。</li>
-<li>展示 A* 搜索热力图，说明启发式搜索不是盲目搜索。</li>
-<li>展示动态重规划 GIF，说明障碍物移动后机器人会重新规划。</li>
-<li>展示机器人实际轨迹图和重规划时间线，说明最终执行过程稳定。</li>
+<li>构建仓库地图。</li>
+<li>放置 4 台机器人和 6 个取货投放任务。</li>
+<li>按任务优先级进行任务分配。</li>
+<li>使用 A* 规划机器人到取货点和投放点的路径。</li>
+<li>检测多机器人路径中的冲突。</li>
+<li>对冲突机器人插入等待动作。</li>
+<li>输出图片、图表、GIF 和指标文件。</li>
+</ol>
+<h2 id="_6">展示顺序</h2>
+<p>汇报时建议按这个顺序展示：</p>
+<ol>
+<li>仓库任务分布图：说明地图、机器人和任务。</li>
+<li>多机器人路线图：说明任务分配和路径规划。</li>
+<li>负载均衡图：说明多机器人方案优于单机器人基线。</li>
+<li>冲突消除图：说明冲突从 1 个降到 0 个。</li>
+<li>执行时间线图：说明多机器人按时间有序执行。</li>
+<li>GIF 动图：展示机器人协同运行过程。</li>
 </ol>
 <h2 id="_7">运行结果</h2>
-<p>运行命令是：</p>
-<pre><code class="language-bash">cd src/adaptive_grid_navigation
+<p>运行命令：</p>
+<pre><code class="language-bash">cd src/warehouse_robot_coordination
 python main.py
 </code></pre>
-<p>运行结果显示：</p>
-<pre><code class="language-text">Dijkstra: path_length=54, expanded_nodes=899
-A*: path_length=54, expanded_nodes=648
-Greedy best-first: path_length=56, expanded_nodes=58
-Dynamic replanning: reached_goal=True replans=2 travelled=54 frames=55
+<p>运行结果：</p>
+<pre><code class="language-text">Robots: 4  Tasks: 6
+Total planned distance: 176
+Scheduled makespan: 64
+Single robot baseline distance: 261
+Conflicts before/after: 1 -&gt; 0
+Inserted waits: 3
 </code></pre>
 <h2 id="_8">结果分析</h2>
-<p>Dijkstra 和 A<em> 都找到了长度为 54 的路径，但 A</em> 扩展节点更少，说明启发式搜索提高了效率。</p>
-<p>贪心搜索扩展节点最少，但路径长度变成 56，说明它速度快，但不保证最优。</p>
-<p>动态重规划实验中，机器人最终成功到达目标点，并进行了 2 次重规划，说明模块可以模拟动态环境下的路径调整。</p>
+<p>多机器人协同后，计划总距离为 176，调度后 makespan 为 64，而单机器人完成全部任务需要 261 步。</p>
+<p>这说明多机器人协作能够明显减少整体完成时间。</p>
+<p>冲突检测发现原路线中有 1 个冲突，通过插入 3 次等待动作，最终冲突数量降为 0，说明调度器能够处理多机器人路径冲突。</p>
 <h2 id="_9">项目价值</h2>
 <p>这个项目的价值在于：</p>
 <ul>
-<li>它是一个完整的工程模块。</li>
-<li>它和机器人导航、无人车路径规划主题相关。</li>
-<li>它可以直接生成多张图片和 GIF，方便课堂展示。</li>
-<li>它有测试文件和指标文件，方便验证结果。</li>
-<li>后续可以迁移到 ROS、Gazebo、Webots 或 Carla 中。</li>
+<li>它是一个完整工程模块，不是单个脚本。</li>
+<li>它更接近真实仓储机器人调度问题。</li>
+<li>它包含算法、测试、指标和可视化结果。</li>
+<li>后续可以扩展到 ROS、Gazebo、Webots 或真实 AGV 调度系统。</li>
 </ul>
 <h2 id="_10">结尾</h2>
-<p>我的汇报到这里结束。后续我计划继续加入路径平滑、速度规划和更真实的动态障碍物，使它进一步接近真实机器人导航系统。</p>
+<p>我的汇报到这里结束。后续可以继续加入任务截止时间、电量约束、充电站调度和更复杂的 CBS 多智能体路径规划算法。</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../" class="btn btn-neutral float-left" title="自适应栅格导航"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../../linear_regression/" class="btn btn-neutral float-right" title="线性回归">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../" class="btn btn-neutral float-left" title="仓储多机器人协同"><span class="icon icon-circle-arrow-left"></span> Previous</a>
     </div>
 
   <hr/>
@@ -202,8 +198,6 @@ Dynamic replanning: reached_goal=True replans=2 travelled=54 frames=55
     
       <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
     
-    
-      <span><a href="../../linear_regression/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
