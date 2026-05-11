@@ -1,0 +1,24 @@
+{
+  "project": "synthetic_digit_softmax_classifier",
+  "sample_count": 1000,
+  "baseline_template": {
+    "accuracy": 0.824,
+    "macro_f1": 0.8233
+  },
+  "optimized_softmax": {
+    "accuracy": 0.896,
+    "macro_f1": 0.8947,
+    "final_loss": 1.262576
+  },
+  "improvement": {
+    "accuracy_delta": 0.072,
+    "macro_f1_delta": 0.0714
+  },
+  "generated_files": [
+    "digit_samples.png",
+    "confusion_matrix.png",
+    "softmax_weight_maps.png",
+    "metric_comparison.png",
+    "predictions.csv"
+  ]
+}
